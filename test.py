@@ -16,13 +16,14 @@ def test_gold():
     g.tag()
 
 def test_gold_email():
+    # 假数据
     tag_map = {
         'bqtadyqz1efpeuwbfoqfmkqi3': Category.conversation,
         'bmkxm638ky7gs6xb2h8ydjq5d': Category.order_acknowledgement,
     }
 
     g = GoldEmail(input_stream=load_from_pkl(),tag_map=tag_map)
-    g.verify()
+    g.verify(ReClassifier())
 
 if __name__ == '__main__':
     # test_load()

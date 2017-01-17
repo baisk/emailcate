@@ -94,16 +94,24 @@ class GoldEmail(object):
             real_tag[category].add(data['id'])
             cal_tag[cal_cate].add(data['id'])
 
-        # 以下计算都是针对某个类别的
+        # 以下计算都是针对计算出来类别
+        # https://argcv.com/articles/1036.c
         # 计算准确率: P=tp/(tp+fp)
-        precision = {c:len(cal_tag[i].intersection(real_tag[i]))/len(cal_tag) for c in cal_tag}
+        precision = {c:len(cal_tag[c].intersection(real_tag[c]))/len(cal_tag[c]) for c in cal_tag}
 
         # 计算召回率: R=tp/(tp+fn)
-        recall = {c:len(cal_tag[i].intersection(real_tag[i]))/len(real_tag) for c in cal_tag}
+        recall = {c:len(cal_tag[c].intersection(real_tag[c]))/len(real_tag[c]) for c in cal_tag}
 
         # 计算 f1值: 2/f1 = 1/P + 1/R
-        f1 = {2*precision[c]*recall[c]/(precision[c]+recall[c]) for c in cal_tag}
+        f1 = {c:2*precision[c]*recall[c]/(precision[c]+recall[c]) for c in cal_tag}
 
+        print('precision: ')
+        pprint(precision)
+
+        print('recall: ')
+        pprint(recall)
+
+        print('f1 score: ')
         pprint(f1)
 
 

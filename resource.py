@@ -30,10 +30,10 @@ def load_from_pkl(pkl_name='email_sample_joey.pkl', head=None):
     with open(pkl_name, 'rb') as f:
         emails = pickle.load(f)
         for email_id, email in itertools.islice(emails.items(), head):
-            yield dict(
-                id = email['id'],
-                raw = email['clean_body']
-            )
+            yield email['id'], dict(
+                                    id = email['id'],
+                                    raw = email['clean_body']
+                                )
 
 # load_from_pkl = _load_from_pkl
 

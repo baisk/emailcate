@@ -32,7 +32,7 @@ class ReClassifier(BaseClassifier):
     '''
     def category(self, email):
         '''
-            测试
+            测试, 不管怎么样 返回一个 对话类
         '''
         return Category.conversation
 
