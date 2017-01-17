@@ -3,6 +3,7 @@
 
 import pickle
 from pprint import pprint
+from collections import defaultdict
 
 class GoldStandard(object):
     '''
@@ -79,7 +80,35 @@ class GoldEmail(object):
         '''
         # 从 input_stream 中找到我所需要的 id
         all_data = dict(input_stream)
-        pass
+        self.data = [(all_data[id], category) for id, category in tag_map.items()]
+        del all_data # 节省空间
+
+    def verify(self, classifier):
+        '''
+            验证这个分类器的准确率和召回率
+        '''
+        real_tag = defaultdict(set)
+        cal_tag = defaultdict(set)
+        for data, category in self.data:
+            cal_cate = classifier.category(data['raw'])
+            real_tag[category].add(data['id'])
+            cal_tag[cal_cate].add(data['id'])
+
+        # 以下计算都是针对某个类别的
+        # 计算准确率: P=tp/(tp+fp)
+        precision = {c:len(cal_tag[i].intersection(real_tag[i]))/len(cal_tag) for c in cal_tag}
+
+        # 计算召回率: R=tp/(tp+fn)
+        recall = {c:len(cal_tag[i].intersection(real_tag[i]))/len(real_tag) for c in cal_tag}
+
+        # 计算 f1值: 2/f1 = 1/P + 1/R
+        f1 = {2*precision[c]*recall[c]/(precision[c]+recall[c]) for c in cal_tag}
+
+        pprint(f1)
+
+
+
+
 
 
 # -*- end of file -*-

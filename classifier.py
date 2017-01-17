@@ -6,6 +6,7 @@
 '''
 
 import spacy
+from spacy.matcher import Matcher
 from enum import IntEnum
 
 class Category(IntEnum):
@@ -20,14 +21,21 @@ class BaseClassifier(object):
         分类器的公共基类, 用来处理统一的,共有的操作
         并且用公共类的方式标注出 接口
     '''
-    pass
+
+    def category(self):
+        raise NotImplementedError()
 
 
 class ReClassifier(BaseClassifier):
     '''
         正则版本
     '''
-    pass
+    def category(self, email):
+        '''
+            测试
+        '''
+        return Category.conversation
+
 
 
 class SpacyClassifier(BaseClassifier):
@@ -35,8 +43,13 @@ class SpacyClassifier(BaseClassifier):
         spacy 版本
     '''
     nlp = spacy.load('en')
+    matcher = Matcher(nlp.vocab)
 
-    pass
+    def category(self, email):
+        '''
+            对于一个email 返回所属于分类
+        '''
+        pass
 
 
 # -*- end of file -*-
