@@ -28,5 +28,6 @@ def test_gold_email():
 if __name__ == '__main__':
     # test_load()
     # test_gold()
-    test_gold_email()
+    # test_gold_email()
+    pass
 # -*- end of file -*-

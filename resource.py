@@ -7,9 +7,9 @@
 import pickle
 import itertools
 
-def load_from_pkl(pkl_name='email_sample_joey.pkl', head=None):
+def load_from_pkl(pkl_name='email_sample_joey.pkl', start=0, head=None):
     '''
-        从 pickle 文件中读取 email, 如果指定 head, 则返回前 head 条, head 为int
+        从 pickle 文件中读取 email, 指定 start, 和 head 可以切片
 
         这里的 pkl 文件格式:
             [
@@ -29,7 +29,7 @@ def load_from_pkl(pkl_name='email_sample_joey.pkl', head=None):
     #fixme 可以通过批量读取加载的方式
     with open(pkl_name, 'rb') as f:
         emails = pickle.load(f)
-        for email_id, email in itertools.islice(emails.items(), head):
+        for email_id, email in itertools.islice(emails.items(), start, head):
             yield email['id'], dict(
                                     id = email['id'],
                                     raw = email['clean_body']
